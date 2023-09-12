@@ -21,7 +21,7 @@ def lerarquivos_SATINgbk(folder_output):
     #print(list_SEQ)
     for i in list_SEQ:
         df_name = i # retira  a terminacao do nome ".fasta.misa"
-        df_data = pd.read_csv(folder_output + str(i) + "/" + str(i) + ".coding" , delimiter = '\t',skiprows=1 , names= ("N", "Start", "End", "SSR","Gene", "locus_tag", "Product"), engine ='python') #abrir arquivos e definir os nomes das colunas
+        df_data = pd.read_csv(folder_output + str(i) + "/" + str(i) + ".coding" , delimiter = ';',skiprows=1 , names= ("N", "Start", "End", "SSR","Gene", "locus_tag", "Product"), engine ='python') #abrir arquivos e definir os nomes das colunas
         Sequencias[df_name]=df_data
     return(Sequencias, list_SEQ)
 
@@ -56,6 +56,7 @@ def selecionar_SSRs_SATIN(Sequencias, u):
         
         SSR.append(selected_gene_df['SSR'])
         genomas.append(i)
+        
     return (SSR, genomas)
 
 
@@ -67,7 +68,7 @@ def contar_SSRs_entre_genomas(Sequencias, unique_genes):
     
     for u in unique_genes:
         (SSR, genomas)= selecionar_SSRs_SATIN(Sequencias, u)
-        # print(u)
+        #print(u)
         
         for k in range(len(list(Sequencias.keys()))): # Pegar index de cada genoma
             df_name = list(Sequencias.keys())[k]

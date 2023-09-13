@@ -27,7 +27,7 @@ def convert_gbktoptt(file_gbk: str, output_file: str):
 
     with open(output_file, "w") as handle:
         # handle.write("# This is a converted PTT file\n")
-        handle.write("#Start    End    Strand    Length    Gene    locus_tag    Product\n")
+        handle.write("#Start;End;Strand;Length;Gene;locus_tag;Product\n")
 
         for feature in gb_record.features:
 
@@ -51,7 +51,7 @@ def convert_gbktoptt(file_gbk: str, output_file: str):
                             locus_tag = feature.qualifiers.get("locus_tag", [""])[0]
                             product = feature.qualifiers.get("product", [""])[0]
                             gene = feature.qualifiers.get("gene", [""])[0]
-                            handle.write(f"{start}\t{end}\t{strand_char}\t{length}\t{gene}\t{locus_tag}\t{product}\n")
+                            handle.write(f"{start};{end};{strand_char};{length};{gene};{locus_tag};{product}\n")
 
 
                     elif isinstance(feature.location, SimpleLocation): # If simple location CDS
@@ -69,7 +69,7 @@ def convert_gbktoptt(file_gbk: str, output_file: str):
                         locus_tag = feature.qualifiers.get("locus_tag", [""])[0]
                         product = feature.qualifiers.get("product", [""])[0]
                         gene = feature.qualifiers.get("gene", [""])[0]
-                        handle.write(f"{start}\t{end}\t{strand_char}\t{length}\t{gene}\t{locus_tag}\t{product}\n")
+                        handle.write(f"{start};{end};{strand_char};{length};{gene};{locus_tag};{product}\n")
 
 
 if __name__=='__main__':

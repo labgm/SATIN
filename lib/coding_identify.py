@@ -16,7 +16,7 @@ def analyse_satin_ptt(input_ppt_file: str, input_satin_file: str, output_coding_
 
 		with open(output_coding_file, "w") as handle:
 		
-			handle.write("#\tStart\tEnd\tSSR\tGene\tlocus_tag\tProduct\n")
+			handle.write("#;Start;End;SSR;Gene;locus_tag;Product\n")
 
 			index_output = 0
 			for row in line_satin_file:
@@ -38,7 +38,7 @@ def analyse_satin_ptt(input_ppt_file: str, input_satin_file: str, output_coding_
 						cont_header += 1
 						continue
 
-					line_ptt_file = line_ptt_file.strip().split("\t")
+					line_ptt_file = line_ptt_file.strip().split(";")
 					
 					start_ptt = int(line_ptt_file[0])
 					end_ptt = int(line_ptt_file[1])
@@ -50,7 +50,7 @@ def analyse_satin_ptt(input_ppt_file: str, input_satin_file: str, output_coding_
 						synon = line_ptt_file[5].strip()
 						prod = line_ptt_file[6].strip()
 
-						handle.write(f"{index_output}.\t{start}\t{end}\t{ssr}\t{gene}\t{synon}\t{prod}\n")
+						handle.write(f"{index_output}.;{start};{end};{ssr};{gene};{synon};{prod}\n")
 
 
 if __name__  == '__main__':

@@ -124,3 +124,20 @@ python3 main.py -mf input_folder/filename.fna -o output/
 ```sh
 python3 main.py -fs input_folder/ -o output/
 ```
+
+## 3.	How to calculate SSR abundance and select the best SSRs in coding regions using genbankecol_types.txt file as input
+
+*For this analysis you will need a aditional file with the groups being compared. This can be adjusted based on the file "ecol_types.txt" present on the folder "tools". Remember to edit the Rscripts with your working diretory and the group file before run your code.
+
+
+* Calculate Abundance
+```sh
+python lib/SSRs_abundance_gene.py output/
+```
+
+* Select the best SSR in coding regions
+
+```sh
+/home/username/mambaforge/envs/SATIN/bin/Rscript count_SSR_gene.R
+```
+

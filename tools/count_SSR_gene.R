@@ -1,6 +1,6 @@
 #!/usr/bin/Rscript
 #setwd("/Your/Working/Directory")
-setwd("/home/cwillian/Documents/SATIN/SATIN-main/tools/")
+setwd("/home/cwillian/SATIN/tools/")
 
 
 library(dplyr)
@@ -155,8 +155,8 @@ for (gene in unique(SSR_contagem1$Gene)) {
   remove(b, c, d, e, f, g, gene, GENE, h, i, j, k, SSR)
   gc()
 
-  write.table(SSR_Variacao_sig, "STAT/SSR_AOV_sig.csv", row.names=FALSE, col.names = FALSE, append = TRUE)
-  write.table(Tukey_SSR, "STAT/SSR_Tukey_sig.csv", row.names=FALSE, col.names = FALSE, append = TRUE)
+  write.table(SSR_Variacao_sig, "STAT/SSR_AOV_sig.csv", row.names=FALSE, col.names = FALSE, append = TRUE, sep = "\t")
+  write.table(Tukey_SSR, "STAT/SSR_Tukey_sig.csv", row.names=FALSE, col.names = FALSE, append = TRUE, sep = "\t")
   remove(Tukey_SSR, SSR_Variacao_sig)
 }
 

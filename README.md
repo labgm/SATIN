@@ -105,24 +105,24 @@ Multiple files can be used at input at the same run, as long as they are of the 
 ## 1.	How to run using Genbank files as Input
 * Single GBK file
 ```sh
-python3 main.py -g input_folder/filename.gbk -o output/
+python main.py -g input_folder/filename.gbk -o output/
 ```
 * Multiple GBK files
 ```sh
-python3 main.py -gs input_folder/ -o output/
+python main.py -gs input_folder/ -o output/
 ```
 ## 2.	How to run using Fasta files as Input
 * Single FASTA file
 ```sh
-python3 main.py -f input_folder/filename.fna -o output/
+python main.py -f input_folder/filename.fna -o output/
 ```
 * MultiFASTA file
 ```sh
-python3 main.py -mf input_folder/filename.fna -o output/
+python main.py -mf input_folder/filename.fna -o output/
 ```
 * Multiple FASTA/MultiFASTA files
 ```sh
-python3 main.py -fs input_folder/ -o output/
+python main.py -fs input_folder/ -o output/
 ```
 
 ## 3.	How to calculate SSR abundance and select the best SSRs in coding regions using genbankecol_types.txt file as input
@@ -140,4 +140,5 @@ python lib/SSRs_abundance_gene.py output/
 ```sh
 /home/username/mambaforge/envs/SATIN/bin/Rscript count_SSR_gene.R
 ```
+* Or open the script "count_SSR_gene.R" on Rstudio, do the edition of the paths and file names  and run each line individually.
 

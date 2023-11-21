@@ -4,6 +4,9 @@
 
 import sys
 import csv
+import re
+from Bio.Seq import Seq
+
 
 def analyse_satin_ptt(input_ppt_file: str, input_satin_file: str, output_coding_file: str):
 
@@ -16,7 +19,7 @@ def analyse_satin_ptt(input_ppt_file: str, input_satin_file: str, output_coding_
 
 		with open(output_coding_file, "w") as handle:
 		
-			handle.write("#;Start;End;SSR;Gene;locus_tag;Product\n")
+			handle.write("#;Start;End;SSR;Gene;Strand;locus_tag;Product;ID\n")
 
 			index_output = 0
 			for row in line_satin_file:
@@ -42,19 +45,40 @@ def analyse_satin_ptt(input_ppt_file: str, input_satin_file: str, output_coding_
 					
 					start_ptt = int(line_ptt_file[0])
 					end_ptt = int(line_ptt_file[1])
+					
 
 					# SE ESTÁ DENTRO DA FAIXA
 					if start >= start_ptt and end <= end_ptt:
 						index_output += 1
 						gene = line_ptt_file[4].strip()
+						strand = line_ptt_file[2].strip()
 						synon = line_ptt_file[5].strip()
 						prod = line_ptt_file[6].strip()
+						ID = id.strip()
+						if str(strand) == "-": #Caso a sequencia esteja em um strand negativo o inverso complementar do mesmo sera chamado
+							only_alpha = ""
+							for j in ssr: # lista de cada genoma (j é o SSR analisado)
+								
+								for m in j:
+									if ord(m) >=65 and ord(m)<=90:
+										only_alpha += m
+									elif ord(m) >= 97 and ord(m) <=122:
+										only_alpha += m
+							number = re.findall(r'\d+', ssr)[0]
+							motif = Seq(only_alpha[::-1])
+							only_alpha= ""
+							motif = "(" + str(motif.complement()) + ")" + str(number)
+							ssr=motif
+							
+							handle.write(f"{index_output}.;{start};{end};{ssr};{gene};{strand};{synon};{prod};{ID}\n")
+						else:
+							handle.write(f"{index_output}.;{start};{end};{ssr};{gene};{strand};{synon};{prod};{ID}\n")
 
-						handle.write(f"{index_output}.;{start};{end};{ssr};{gene};{synon};{prod}\n")
 
 
 if __name__  == '__main__':
 
+	
 	input_ppt_file = sys.argv[1]
 	input_satin_file = sys.argv[2]
 	output_coding_file = sys.argv[3]

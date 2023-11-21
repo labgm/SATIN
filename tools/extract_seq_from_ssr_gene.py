@@ -6,7 +6,7 @@ author: SATIN
 
 data:21/11/2023
 proposito: EXTRACT THE FLANKING REGIONS OF THE SELECTED SSR 
-input: Folder_output, Selected_SSR and gene_name
+input: Genome_types.txt, Folder_output, Selected_SSR and gene_name
 output: SSR_gene_contigs_for_SSR.fasta
 
 To run:

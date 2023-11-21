@@ -1,12 +1,31 @@
-from email import header
+
+
+""" 
+
+author: SATIN
+
+data:21/11/2023
+proposito: EXTRACT THE FLANKING REGIONS OF THE SELECTED SSR 
+input: Folder_output, Selected_SSR and gene_name
+output: SSR_gene_contigs_for_SSR.fasta
+
+To run:
+
+''
+
+python tools/extract_seq_from_ssr_gene.py output_folder/ "SSR" gene
+
+''
+
+"""
+
+
 import pandas as pd
 import os
 import sys
 from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
 
-# folder_output = "CODING_ecoli"
-# folder_output2 = "SEQ_ecoli"
 file_output = "ecoli_types.txt"
 folder_output = str(sys.argv[1])
 SSR_sig = str(sys.argv[2])
@@ -26,7 +45,6 @@ def lerarquivos_SAT(folder_output):
         df_data = pd.read_csv(folder_output + str(i) + "/" + str(i) + ".coding" , delimiter = ';', skiprows=1 , names= ("INDEX", "START", "END", "SSR", "GENE", "STRAND", "LOCUS", "PRODUCT", "ID"), engine='python', quoting=3) #abrir arquivos e definir os nomes das colunas
         df_data['GENE'] = df_data['GENE'].astype(str).str.split('_').str[0] # Remove as terminações '_2' em genes que tenham o mesmo nome exceto estas terminações por indicar mutações
         SAT[df_name]=df_data
-    # print(SAT['GCF_000175735.1.gbff']['GENE'])
     return(SAT, list_SEQ)
 
 
@@ -42,8 +60,6 @@ def lerarquivos_Seq(folder_output):
         seq_name = i # retira  a terminacao do nome ".fasta"
 
         seq_data = list(SeqIO.parse(folder_output + str(i) + "/" + str(i) +  ".fasta"  ,"fasta"))
-        # for i in seq_data:
-        #     print(i.id)
         Seq[seq_name]=seq_data
     return Seq
 
@@ -66,7 +82,6 @@ def select_and_filter_SSRs(SAT, SSR_sig, GENE_sig):
         df3 = df2.loc[df2["SSR"] == SSR_sig]
         SAT_sig[df_name]=df3
 
-    # print(SAT_sig)
     
     return (SAT_sig)
 
@@ -90,7 +105,6 @@ def select_and_save_seq(SAT_sig, Seq, classes):
         if i not in genomas_SAT_sig:
             continue
         else:
-            # print(SAT_sig[i]['ID'])
 
             
             if len(list(SAT_sig[i])) == 0:  # Caso o SAT_sig retorne nenhum resultado
@@ -104,14 +118,7 @@ def select_and_save_seq(SAT_sig, Seq, classes):
                     # print(string)
                     
                     for g in range(len(Seq1[i])): # Pega os indexes para cada SeqRecord() dentro do arquivo .fasta
-
-                            
-            #                 string = string.split()
-                #             string2 = string[1].split("_")
-                #             string2 = string2[0]
-                #             string = string[0] + str('.') +  string2
-                #             string = string.split(" ")
-                        # print(Seq1[i][g].id)    
+   
                         if str(Seq1[i][g].id) == str(string):
                             # print(Seq1[i][g].id)
                                 
@@ -119,7 +126,6 @@ def select_and_save_seq(SAT_sig, Seq, classes):
                             START = pd.to_numeric(SAT_sig[i]['START']).to_list()  # Pega todos START do arquivo SAT_sig e cria uma lista (para 1 genoma)
                             END = pd.to_numeric(SAT_sig[i]['END']).to_list()     # Pega todos END do arquivo SAT_sig e cria uma lista (para 1 genoma)
                             END = END
-                            # print(START, END)
 
                             START1 = int(START[k])
                             if (START1- intervalo) < 0:
@@ -151,4 +157,4 @@ Seq_for_primer3 = select_and_save_seq(SAT_sig, Seq, classes)
 SeqIO.write(Seq_for_primer3, nome_editado, "fasta")
 
 
-print("Arquivo editado e salvo como", str(nome_editado))
+print("File edited and saved as ", str(nome_editado))

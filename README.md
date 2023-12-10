@@ -1,4 +1,4 @@
-# SATIN - mini and  microSATellite IdentificatioN Tool
+# SATIN - Micro and Mini SATellite IdentificatioN tool
 - Satin is a command line tool for Mini and Microsatellite identification with many new features to optimize SSR prospection. It can be executed in Linux Terminal. It is very intuitive to use and only requires a fasta or a gbk to run.
 
 # How to Install

@@ -12,7 +12,7 @@ The executable main.py is the file the user should run in order to make SSR anal
  
 1.2. The download of the folder can also be downloaded through Linux Terminal by using git clone:
 ```sh
-git clone https://github.com/labgm/SATIN_c.git
+git clone https://github.com/labgm/SATIN.git
 ```
 
 

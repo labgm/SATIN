@@ -32,7 +32,7 @@ mamba env create -f SATIN.yml
 ```sh
 mamba activate SATIN
 ```
-  Alternative installation
+  2.2 Alternative installation
    
 * pip3
 ```sh
@@ -64,7 +64,7 @@ sudo apt-get install libz-dev
 sudo apt-get install libbz2-dev
 ```
 
-2.2 Optional R dependencies
+Optional R dependencies
 SATIN uses R to calculate abundance and statistics. It’s adviseable to install R in your computer, and install the R packages dplyr and tidyr.
 *Install R
 ```sh
@@ -81,7 +81,7 @@ install.packages('dplyr')
 install.packages('tidyr')
 ```
 
-3.3 In some cases when using the Linux OS, you may need to install GLIBC. When required, an error message may occur when trying to run the application.
+In some cases when using the Linux OS, you may need to install GLIBC. When required, an error message may occur when trying to run the application.
 > Error message: "**version GLIBC_{VERSION} not found..**"
 
 * In this case, you need to install GLIBC.

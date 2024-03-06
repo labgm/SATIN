@@ -1,13 +1,16 @@
-#!/usr/bin/Rscript
+#!/home/cwillian/mambaforge/envs/SATIN/bin/Rscript
+
+#####!/usr/bin/Rscript
+
 #setwd("/Your/Working/Directory")
-setwd("/home/cwillian/SATIN/tools/")
+setwd("/home/cwillian/Documents/SATIN/SATIN-main/tools/")
 
 
 library(dplyr)
 library(tidyr)
 
 SSR_contagem1 <- read.delim("SSR_counting.txt", header = TRUE, stringsAsFactors = FALSE)
-SSR_Groups <- read.delim("ecol_types.txt", header = FALSE, stringsAsFactors = FALSE)
+SSR_Groups <- read.delim("ecoli_types.txt", header = FALSE, stringsAsFactors = FALSE)
 
 
 rownames(SSR_Groups) <- SSR_Groups$V1
@@ -16,9 +19,9 @@ SSR_Groups <- tmp
 remove(tmp)
 
 #####STAT/SSR_AOV_sig.csv#####
-test <- c("", "","AOV", "AOV","AOV", "AOV", "AOV", "SHAPIRO-WILK", "SHAPIRO-WILK", "KRUSKAL-WALLIS", "KRUSKAL-WALLIS")
+test <- c("", "","AOV", "AOV","AOV", "AOV", "AOV", "SHAPIRO-WILK", "SHAPIRO-WILK", "KRUSKAL-WALLIS", "KRUSKAL-WALLIS", "SSR-IN-GENOMES")
 cat(test, "\n", file = "STAT/SSR_AOV_sig.csv", sep = "\t")
-test <- c("SSR","Gene", "Pr(>F)", "F_value", "Mean_Sq", "Sum_Sq", "Df", "W", "P-value", "chi_squared", "p_value")
+test <- c("SSR","Gene", "Pr(>F)", "F_value", "Mean_Sq", "Sum_Sq", "Df", "W", "P-value", "chi_squared", "p_value", "SSR_sum")
 cat(test, "\n", file = "STAT/SSR_AOV_sig.csv", sep = "\t", append = TRUE)
 
 ######STAT/SSR_Tukey_sig.csv####
@@ -40,11 +43,9 @@ for (gene in unique(SSR_contagem1$Gene)) {
 
 
   #########KRUSKAL WALLIS############################
-  #FALTA FAZER FILTRAGENS AMAIS PARA O POST HOC
-  ###############
 
   kruskal_result <- lapply(SSR_contagem_Grouped[-(ncol(SSR_contagem_Grouped))], FUN = function(x) kruskal.test(x~SSR_contagem_Grouped$V2))
-
+  
   if (exists("kruskal_result") == FALSE ) {
     print("kruskal_result error in gene =")
     print(gene)
@@ -76,7 +77,7 @@ for (gene in unique(SSR_contagem1$Gene)) {
   for (i in 1:length(kruskal_result)) {if (is.na(kruskal_result[i][[1]][["p.value"]])) {
     print('Missing p-value from kruskal_result item')
     kruskal_result[i][[1]][["p.value"]] <- "NF"} #create a NF (Not Found) object
-    else if (kruskal_result[i][[1]][["p.value"]] < 0.001) {
+    else if (kruskal_result[i][[1]][["p.value"]] < 0.01) {
     significante_index <- append(significante_index, aov_result[i])
     significante_shapiro <- append(significante_shapiro, shapiro_result[i])
     significante_kruskal <- append(significante_kruskal, kruskal_result[i])
@@ -89,8 +90,6 @@ for (gene in unique(SSR_contagem1$Gene)) {
 
 
   #########POST HOC############################
-  #FALTA FAZER FILTRAGENS AMAIS PARA O POST HOC
-  ###############
 
   Tukey_result <- list()
   for (i in significante_index) {Tukey_result <- append(Tukey_result, TukeyHSD(i))}
@@ -121,18 +120,19 @@ for (gene in unique(SSR_contagem1$Gene)) {
   for (i in 1:length(significante_index)) {
     GENE = gene
     SSR = names(significante_index[i])
-    b = summary.aov(significante_index[[i]])[[1]][["Pr(>F)"]][1] # Valor de P-value para aov() #"Pr(>F)"
-    c = summary.aov(significante_index[[i]])[[1]][["F value"]][1]  # Valor de F-value para aov()
-    d = summary.aov(significante_index[[i]])[[1]][["Mean Sq"]][1]  # Valor de "Mean Sq" para aov()
-    e = summary.aov(significante_index[[i]])[[1]][["Sum Sq"]][1]  # Valor de "Sum Sq" para aov()
+    b = format(summary.aov(significante_index[[i]])[[1]][["Pr(>F)"]][1], scientific = TRUE, digits = 20) # Valor de P-value para aov() #"Pr(>F)"
+    c = format(summary.aov(significante_index[[i]])[[1]][["F value"]][1], scientific = FALSE, digits = 4)  # Valor de F-value para aov()
+    d = format(summary.aov(significante_index[[i]])[[1]][["Mean Sq"]][1], scientific = FALSE, digits = 4)  # Valor de "Mean Sq" para aov()
+    e = format(summary.aov(significante_index[[i]])[[1]][["Sum Sq"]][1], scientific = FALSE, digits = 4)  # Valor de "Sum Sq" para aov()
     f = summary.aov(significante_index[[i]])[[1]][["Df"]][1]     # Valor de "Df" para aov()
     if (is.null(significante_shapiro[[i]])) {g = h = "NF"} else { #create a NF (Not Found) object
-    g = significante_shapiro[[i]]$statistic[[1]] # Valor de W para shapiro.test() #"W"
-    h = significante_shapiro[[i]]$p.value  # Valor de P-value para shapiro.test()
+    g = format(significante_shapiro[[i]]$statistic[[1]], scientific = FALSE, digits = 4) # Valor de W para shapiro.test() #"W"
+    h = format(significante_shapiro[[i]]$p.value, scientific = TRUE, digits = 20)  # Valor de P-value para shapiro.test()
     }
     j = summary.factor(significante_kruskal[i][[1]][[1]]) # Valor de Kruskal-Wallis chi-squared para kruskal.test()
-    k = significante_kruskal[i][[1]][["p.value"]] # Valor de P-value para kruskal.test()
-    tmp = rbind(tmp, data.frame(SSR, gene, b, c, d, e, f, g, h,  j, k))}
+    k = format(significante_kruskal[i][[1]][["p.value"]], scientific = TRUE, digits = 20) # Valor de P-value para kruskal.test()
+    l = as.numeric(sum(SSR_contagem_Grouped[,1]))
+    tmp = rbind(tmp, data.frame(SSR, gene, b, c, d, e, f, g, h,  j, k, l))}
 
   #   tmp = rbind(tmp, data.frame(SSR, gene, b, c, d, e, f, g, h,  j, k))}
   # SSR_Variacao_sig <- merge(SSR_Variacao_sig, tmp, by = "SSR")
@@ -155,9 +155,11 @@ for (gene in unique(SSR_contagem1$Gene)) {
   remove(b, c, d, e, f, g, gene, GENE, h, i, j, k, SSR)
   gc()
 
+  
   write.table(SSR_Variacao_sig, "STAT/SSR_AOV_sig.csv", row.names=FALSE, col.names = FALSE, append = TRUE, sep = "\t")
   write.table(Tukey_SSR, "STAT/SSR_Tukey_sig.csv", row.names=FALSE, col.names = FALSE, append = TRUE, sep = "\t")
-  remove(Tukey_SSR, SSR_Variacao_sig)
+  #remove(Tukey_SSR, SSR_Variacao_sig)
 }
 
 ###SALVAR RESULTADOS
+

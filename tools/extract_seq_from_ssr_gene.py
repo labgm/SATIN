@@ -11,6 +11,9 @@ output: SSR_gene_contigs_for_SSR.fasta
 
 To run:
 
+BEFORE YOU RUN FIRST PLEASE EDIT THE NAME OF THE GENOMES_GROUP FILE ON LINE 32 OF THIS SCRIPT 
+THEN RUN THE COMAND ACCORDINGLY
+
 ''
 
 python tools/extract_seq_from_ssr_gene.py output_folder/ "SSR" gene

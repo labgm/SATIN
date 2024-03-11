@@ -29,17 +29,22 @@ test <- c("SSR", "Gene", "diff", "lwr", "upr", "p.adj", "interactions")
 cat(test, "\n", file = "STAT/SSR_Tukey_sig.csv", sep = "\t")
 remove(test)
 
+not_significant_genes <- list()
+
 for (gene in unique(SSR_contagem1$Gene)) {
+    
   SSR_contagem <- filter(SSR_contagem1, SSR_contagem1$Gene == gene)
   SSR_names <- SSR_contagem$SSR
   tmp = setNames(data.frame(t(SSR_contagem[,-1:-2])), SSR_contagem[,2])
   SSR_contagem <- tmp
   remove(tmp)
 
+  
   SSR_contagem_Grouped <- transform(merge(SSR_contagem,SSR_Groups,by=0,all=TRUE), row.names=Row.names, Row.names=NULL)
   SSR_names <- append(SSR_names, "V2")
   names(SSR_contagem_Grouped) <- SSR_names
   SSR_contagem_Grouped[is.na(SSR_contagem_Grouped)] <- 0
+  SSR_contagem_Grouped <- arrange(SSR_contagem_Grouped, desc(SSR_contagem_Grouped$V2))
 
 
   #########KRUSKAL WALLIS############################
@@ -57,11 +62,12 @@ for (gene in unique(SSR_contagem1$Gene)) {
   try(aov_result <- lapply(SSR_contagem_Grouped[-(ncol(SSR_contagem_Grouped))], FUN = function(x) aov(x~SSR_contagem_Grouped$V2)))
 
   try(shapiro_result <- lapply(SSR_contagem_Grouped[-(ncol(SSR_contagem_Grouped))], FUN = function(x) shapiro.test(x)))
-
+  
   if (exists("shapiro_result") == FALSE ) {
     print("shapiro_result error in gene =")
     print(gene)
-    next}
+    shapiro_result <- list()
+    }
 
 
   # significante_shapiro <- list()
@@ -74,19 +80,23 @@ for (gene in unique(SSR_contagem1$Gene)) {
   significante_shapiro <- list()
   significante_index <- list()
   significante_kruskal <- list()
+  
+  
   for (i in 1:length(kruskal_result)) {if (is.na(kruskal_result[i][[1]][["p.value"]])) {
     print('Missing p-value from kruskal_result item')
     kruskal_result[i][[1]][["p.value"]] <- "NF"} #create a NF (Not Found) object
-    else if (kruskal_result[i][[1]][["p.value"]] < 0.01) {
+    else if (kruskal_result[i][[1]][["p.value"]] < 0.001) {
     significante_index <- append(significante_index, aov_result[i])
     significante_shapiro <- append(significante_shapiro, shapiro_result[i])
     significante_kruskal <- append(significante_kruskal, kruskal_result[i])
   }}
 
+  
   if (length(significante_index) == 0) {
-    # print("Not significant SSR found! \n gene =")
-    # print(gene)
-    next}
+     print("Not significant SSR found! \n gene =")
+     print(gene)
+     not_significant_genes <- append(not_significant_genes, gene)
+     next}
 
 
   #########POST HOC############################
@@ -111,10 +121,7 @@ for (gene in unique(SSR_contagem1$Gene)) {
   ###########ORGANIZAR OUTPUTS PARA SALVAR#################################
   SSR_Variacao_sig<- data.frame()
 
-  #for (i in Tukey_names) {SSR_Variacao_sig<- rbind(SSR_Variacao_sig, filter(SSR_contagem, ( ifelse(names(SSR_contagem), i))))}
-  #for (i in Tukey_names) {SSR_Variacao_sig$SSR <- rbind(i)}
-  # for (i in 1:length(Tukey_names)) {SSR_Variacao_sig <- rbind(SSR_Variacao_sig, Tukey_names[[i]])}
-  # names(SSR_Variacao_sig) <- "SSR"
+  significante_SSR_Grouped <- select(SSR_contagem_Grouped, names(significante_kruskal))
 
   tmp <- NULL
   for (i in 1:length(significante_index)) {
@@ -131,9 +138,9 @@ for (gene in unique(SSR_contagem1$Gene)) {
     }
     j = summary.factor(significante_kruskal[i][[1]][[1]]) # Valor de Kruskal-Wallis chi-squared para kruskal.test()
     k = format(significante_kruskal[i][[1]][["p.value"]], scientific = TRUE, digits = 20) # Valor de P-value para kruskal.test()
-    l = as.numeric(sum(SSR_contagem_Grouped[,1]))
+    l = as.numeric(sum(significante_SSR_Grouped[,i]))
     tmp = rbind(tmp, data.frame(SSR, gene, b, c, d, e, f, g, h,  j, k, l))}
-
+  
   #   tmp = rbind(tmp, data.frame(SSR, gene, b, c, d, e, f, g, h,  j, k))}
   # SSR_Variacao_sig <- merge(SSR_Variacao_sig, tmp, by = "SSR")
 

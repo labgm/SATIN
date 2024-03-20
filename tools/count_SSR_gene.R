@@ -18,6 +18,7 @@ tmp <- select(SSR_Groups, V2)
 SSR_Groups <- tmp
 remove(tmp)
 
+dir.create('STAT')
 #####STAT/SSR_AOV_sig.csv#####
 test <- c("", "","AOV", "AOV","AOV", "AOV", "AOV", "SHAPIRO-WILK", "SHAPIRO-WILK", "KRUSKAL-WALLIS", "KRUSKAL-WALLIS", "SSR-IN-GENOMES")
 cat(test, "\n", file = "STAT/SSR_AOV_sig.csv", sep = "\t")

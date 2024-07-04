@@ -184,11 +184,11 @@ def contar_SSRs_entre_genomas_filtrado(SSR_count):
                     continue
                 motif = Seq(motivos_em_genes[a])
                 if str(motif.complement()) in scanear_motivos_em_genes:
-                    print("COMPLEMENTO!!")
-                    print(scanear_motivos_em_genes, "scanear_motivos_em_genes")
+                    #print("COMPLEMENTO!!")
+                    #print(scanear_motivos_em_genes, "scanear_motivos_em_genes")
                     indexes = int(len(motivos_em_genes)-1) - int(motivos_em_genes[::-1].index(str(motif.complement()))) # index da posicao do complemento da sequencia
-                    print(indexes)
-                    print(a, "valor do A")
+                    #print(indexes)
+                    #print(a, "valor do A")
                     
                     if numeros_motivos[a] == numeros_motivos[indexes]:
                         motivo_to_ad = motivos[a]

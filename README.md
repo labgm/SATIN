@@ -1,22 +1,22 @@
 # SATIN - Micro and Mini SATellite IdentificatioN tool
-- Satin is a command line tool for Mini and Microsatellite identification with many new features to optimize SSR prospection. It can be executed in Linux Terminal. It is very intuitive to use and only requires a fasta or a gbk to run.
+- Satin is a command line tool for Mini and Microsatellite identification with many new features to optimize SSR prospection. It can be executed in Linux Terminal and it is very intuitive to use and only requires a fasta or a gbk to run.
 
 # How to Install
 ## 1. Download SATIN’s folder. 
 The executable main.py is the file the user should run in order to make SSR analysis, but it requires the supporting files of the folder to run the codes.
 
-1.1. The download of the folder can be done by clicking in “Code > Download Zip” at SATIN’s github page.
+1.1. You can download folder by clicking in “Code > Download Zip” at SATIN’s github page.
 
 ![image](https://github.com/labgm/SATIN_c/assets/101668229/faae9662-6651-4e5c-885a-e684230493ba)
 
  
-1.2. The download of the folder can also be downloaded through Linux Terminal by using git clone:
+1.2. You can also download the folder through Linux Terminal by using git clone:
 ```sh
 git clone https://github.com/labgm/SATIN.git
 ```
 
 
-## 2. Verify if the dependencies are installed are your computer. 
+## 2. Verify if the dependencies are installed in your computer. 
 Satin depends on those dependencies to run.
    
   2.1 Dependencies:
@@ -84,7 +84,7 @@ install.packages('tidyr')
 In some cases when using the Linux OS, you may need to install GLIBC. When required, an error message may occur when trying to run the application.
 > Error message: "**version GLIBC_{VERSION} not found..**"
 
-* In this case, you need to install GLIBC.
+* In this case, you need to install a specific version of GLIBC.
 ```sh
 wget http://ftp.gnu.org/gnu/libc/glibc-{VERSION}.tar.gz
 tar -xvf glibc-{VERSION}.tar.gz
@@ -98,7 +98,7 @@ make install
 ```
 
 # To Execute SATIN 
-Satin is very intuitive to use. The user needs to execute the main executable file (main.py) and write in the command line the specifications of input (“-f”, “-mf”, “-fs”, “-g” or “-gs”)  and output (-o), what files are to be analyzed and Where the output should be placed after the analysis is done. 
+To use Satin the user needs to execute the main executable file (main.py) and write in the command line the specifications of input (“-f”, “-mf”, “-fs”, “-g” or “-gs”)  and output (-o), what files are to be analyzed and Where the output should be placed after the analysis is done. 
 Satin can use as input Genbank or Fasta Files. If Genbank files are used as input, SATIN generates additional outputs.
 Multiple files can be used at input at the same run, as long as they are of the same type.
  

@@ -192,7 +192,7 @@ def contar_SSRs_entre_genomas_filtrado(SSR_count):
                     
                     if numeros_motivos[a] == numeros_motivos[indexes]:
                         motivo_to_ad = motivos[a]
-                        print(motivo_to_ad)
+                        #print(motivo_to_ad)
                         lista1= contagem[a]
                         lista2= contagem[indexes]
                         lista_sum = [x + y for x, y in zip(lista1, lista2)] # Somar duas listas
@@ -302,14 +302,14 @@ def contar_SSRs_entre_genomas_filtrado(SSR_count):
                 else:
 
                     continue
-            
+
+            remover = list(set(remover))
             remover = sorted(remover, reverse= True)
             if len(remover) > 1:
                 del remover[0] # selecionar o primeiro motivo para ser mantido em SSR_count2
-
-            for motivoaremover in remover:
-                del motivos[motivoaremover]
-                del contagem[motivoaremover]
+                for motivoaremover in remover:
+                    del motivos[motivoaremover]
+                    del contagem[motivoaremover]
             
             for z in range(len(motivos)):
 

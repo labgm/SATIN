@@ -3,14 +3,8 @@
 
 # How to Install
 ## 1. Download SATIN’s folder. 
-The executable main.py is the file the user should run in order to make SSR analysis, but it requires the supporting files of the folder to run the codes.
-
-1.1. You can download folder by clicking in “Code > Download Zip” at SATIN’s github page.
-
-![image](https://github.com/labgm/SATIN_c/assets/101668229/faae9662-6651-4e5c-885a-e684230493ba)
-
  
-1.2. You can also download the folder through Linux Terminal by using git clone:
+1.1. You can also download the folder through Linux Terminal by using git clone:
 ```sh
 git clone https://github.com/labgm/SATIN.git
 ```

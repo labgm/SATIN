@@ -144,4 +144,4 @@ python lib/SSRs_abundance_gene.py output_folder/
 ```
 * Or open the script "count_SSR_gene.R" on Rstudio, do the edition of the paths and file names  and run each line individually.
 
-** 4. To set the "Parameters.ini" file to set the motif size and minimal repetition just edit the file as motifsize:MinRep. The "INT" value sets the minimal interval between SSRs to be considered as compound SSRs.
+** 4. To set the "Parameters.ini" file to set the motif size and minimal repetition just edit the file as motifsize:MinRep. The "INT" value sets the minimal interval between SSRs to be considered as compound SSRs. **

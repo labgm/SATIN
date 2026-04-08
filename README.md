@@ -4,7 +4,7 @@
 # How to Install
 ## 1. Download SATIN’s folder. 
  
-1.1. You can also download the folder through Linux Terminal by using git clone:
+1.1. You can download the folder through Linux Terminal by using git clone:
 ```sh
 git clone https://github.com/labgm/SATIN.git
 ```
@@ -93,6 +93,13 @@ make install
 
 # To Execute SATIN 
 To use Satin the user needs to execute the main executable file (main.py) and write in the command line the specifications of input (“-f”, “-mf”, “-fs”, “-g” or “-gs”)  and output (-o), what files are to be analyzed and Where the output should be placed after the analysis is done. 
+
+In some cases the "bin/search_ssr_mf" are not executable. You can right click in the mouse to make it executable or run:
+
+```sh
+chmod +x bin/search_ssr_mf
+```
+
 Satin can use as input Genbank or Fasta Files. If Genbank files are used as input, SATIN generates additional outputs.
 Multiple files can be used at input at the same run, as long as they are of the same type.
  
